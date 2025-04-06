@@ -1,5 +1,5 @@
-# 🌌 Sky Dash: Galactic Escape
 
+# 🌌 Sky Dash: Galactic Escape
 **Sky Dash: Galactic Escape** (name subject to change) is an exhilarating **3D endless runner** game where players control an astronaut blasting off from Earth into the vast unknown of space. Navigate through planets, asteroid fields, and distant galaxies while dodging cosmic hazards and upgrading your rocket to chase high scores!
 
 ---
@@ -36,9 +36,7 @@ You play as a lone astronaut riding a futuristic rocket, soaring upward from Ear
 
 - **🔧 Upgrade System**  
   - Use energy orbs to enhance:  
-    - Rocket speed  
-    - Durability  
-    - Power-up duration/effectiveness
+
 
 - **🚀 Unlockable Rockets & Suits**  
   - Unique skins with visual trails & effects
