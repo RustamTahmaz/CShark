@@ -20,7 +20,7 @@ public class KnightmareSwipeMovement : MonoBehaviour
     public float swipeTimeThreshold = 0.3f;
 
     [Tooltip("Time (in seconds) to complete the dash movement.")]
-    public float dashDuration = 0.2f;
+    public float dashDuration = 0.4f;
 
     [Header("Camera Clamping")]
     [Tooltip("Padding so the character doesn't clip exactly on screen edges.")]
@@ -98,26 +98,49 @@ public class KnightmareSwipeMovement : MonoBehaviour
     private System.Collections.IEnumerator DashVerticalCoroutine(float dir)
     {
         isDashing = true;
+        // animator.SetBool("IsDashing", true);
 
-        Vector3 startPos = transform.position;
+        // The dash’s starting Y and final (clamped) Y
+        float startY = transform.position.y;
+        // We still compute dashTarget as before, but we only use its Y.
+        Vector3 dashTarget = transform.position + new Vector3(0f, dir * verticalDashDistance, 0f);
+        dashTarget = ClampToCamera(dashTarget); // for safety, though we only really need dashTarget.y
 
-        // Compute dash target
-        Vector3 dashTarget = startPos + new Vector3(0f, dir * verticalDashDistance, 0f);
-        dashTarget = ClampToCamera(dashTarget);
-
-        Debug.Log($"[Dash] Start Y={startPos.y}, Target Y={dashTarget.y}");
+        float targetY = dashTarget.y;
 
         float elapsed = 0f;
         while (elapsed < dashDuration)
         {
             float t = elapsed / dashDuration;
-            transform.position = Vector3.Lerp(startPos, dashTarget, t);
+
+            // 1) Keep the current X (in case the user is dragging horizontally)
+            float currentX = transform.position.x;
+
+            // 2) Lerp just the Y coordinate
+            float newY = Mathf.Lerp(startY, targetY, t);
+
+            // 3) Construct the new position
+            Vector3 newPos = new Vector3(currentX, newY, transform.position.z);
+
+            // 4) Clamp the new position so we don't leave the screen (including the X if needed)
+            newPos = ClampToCamera(newPos);
+
+            // 5) Assign to transform
+            transform.position = newPos;
+
             elapsed += Time.deltaTime;
             yield return null;
         }
-        transform.position = dashTarget;
+
+        // Final snap to the fully dashed Y (just to ensure consistency)
+        // but keep the current X
+        float finalX = transform.position.x;
+        Vector3 finalPos = new Vector3(finalX, targetY, transform.position.z);
+        finalPos = ClampToCamera(finalPos);
+        transform.position = finalPos;
 
         isDashing = false;
+        // animator.SetBool("IsDashing", false);
     }
 
     private Vector3 ClampToCamera(Vector3 targetPos)
@@ -144,4 +167,6 @@ public class KnightmareSwipeMovement : MonoBehaviour
         float clampedY = Mathf.Clamp(targetPos.y, minY, maxY);
         return new Vector3(clampedX, clampedY, targetPos.z);
     }
+
+    
 }

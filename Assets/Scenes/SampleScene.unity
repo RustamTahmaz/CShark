@@ -181,7 +181,7 @@ Camera:
   far clip plane: 1000
   field of view: 157.03
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 30
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -206,7 +206,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -34, z: -94.605804}
+  m_LocalPosition: {x: 0, y: -25.52, z: -94.605804}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -535,7 +535,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6.9452844, y: 6.338031, z: 1}
+  m_LocalScale: {x: 7, y: 7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -763,7 +763,7 @@ Transform:
   m_GameObject: {fileID: 1286779352}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.089, y: -33.5337, z: 0}
+  m_LocalPosition: {x: 0.089, y: -3.9, z: 0}
   m_LocalScale: {x: 1.4531193, y: 1.5050508, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -781,7 +781,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1255d73f33a01469365ec5298b0f7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  horizontalDragFactor: 0.02
+  maxHorizontalSpeed: 10
+  verticalDashDistance: 50
+  verticalSwipeThreshold: 80
+  swipeTimeThreshold: 0.3
+  dashDuration: 0.2
+  boundaryPadding: 2.5
 --- !u!1 &1426705437
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,7 +974,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.013, y: 101.41, z: 0}
-  m_LocalScale: {x: 6.9452844, y: 6.338031, z: 1}
+  m_LocalScale: {x: 7, y: 7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
