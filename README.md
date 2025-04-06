@@ -1,4 +1,3 @@
-
 # 🌌 Sky Dash: Galactic Escape
 **Sky Dash: Galactic Escape** (name subject to change) is an exhilarating **3D endless runner** game where players control an astronaut blasting off from Earth into the vast unknown of space. Navigate through planets, asteroid fields, and distant galaxies while dodging cosmic hazards and upgrading your rocket to chase high scores!
 
@@ -97,3 +96,4 @@ You play as a lone astronaut riding a futuristic rocket, soaring upward from Ear
 ---
 
 > 🚀 Stay tuned as we continue building this journey beyond the stars!
+
