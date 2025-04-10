@@ -33,7 +33,7 @@ public class MeteorSpawner : MonoBehaviour
         float yPos = cameraYPos + Random.Range(spawnHeightRangeMin, spawnHeightRangeMax); // Y position relative to camera
 
         // Create spawn position based on camera bounds
-        Vector2 spawnPos = new Vector2(xPos, yPos);
+        Vector2 spawnPos = new Vector2(xPos, yPos - 10f);
         GameObject clone = Instantiate(meteorPrefab, spawnPos, Quaternion.identity);
 
         // Optionally flip the meteor's sprite if it's spawning on the right side
