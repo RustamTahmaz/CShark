@@ -4,7 +4,7 @@ using UnityEngine;
 public class BackgroundScroller : MonoBehaviour
 {
     [Tooltip("Scrolling speed (world units/second). Positive = up, negative = down.")]
-    [SerializeField] private float scrollSpeed = -50f;
+    [SerializeField] private float scrollSpeed = -15f;
 
     private BoxCollider2D _collider;
     private Rigidbody2D _rb;
