@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "CShark.sln"
+    "dotnet.defaultSolution": "Background.sln"
 }
