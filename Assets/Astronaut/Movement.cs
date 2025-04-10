@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class KnightmareSwipeMovement : MonoBehaviour
 {
@@ -31,7 +32,12 @@ public class KnightmareSwipeMovement : MonoBehaviour
     private Vector2 startTouchPos;
     private float touchStartTime;
 
+    // Tracks if we are currently in the middle of a dash
     private bool isDashing = false;
+    // Which way we’re currently dashing: +1 for up, -1 for down
+    private float currentDashDirection = 0f;
+    // Reference to the active dash coroutine, so we can stop it mid-dash
+    private Coroutine dashRoutine;
 
     private void Awake()
     {
@@ -79,33 +85,49 @@ public class KnightmareSwipeMovement : MonoBehaviour
                 bool isVerticalSwipe = Mathf.Abs(verticalDist) > verticalSwipeThreshold;
                 bool isQuickSwipe    = swipeDuration <= swipeTimeThreshold;
 
-                // Debug info
                 Debug.Log(
                     $"[Swipe End] Dist: {verticalDist}, Duration: {swipeDuration}, " +
                     $"isVerticalSwipe={isVerticalSwipe}, isQuickSwipe={isQuickSwipe}"
                 );
 
+                // Only start a dash if it's a valid quick vertical swipe and we're not already dashing
                 if (isVerticalSwipe && isQuickSwipe && !isDashing)
                 {
                     float dir = (verticalDist > 0) ? 1f : -1f;
-                    StartCoroutine(DashVerticalCoroutine(dir));
+                    StartDash(dir);
                 }
                 break;
             }
         }
     }
 
-    private System.Collections.IEnumerator DashVerticalCoroutine(float dir)
+    /// <summary>
+    /// Public method to start a dash in a given direction.
+    /// If a dash is already happening, we stop it immediately and begin the new dash.
+    /// </summary>
+    private void StartDash(float dir)
+    {
+        // If a dash coroutine is currently running, stop it
+        if (dashRoutine != null)
+        {
+            StopCoroutine(dashRoutine);
+            dashRoutine = null;
+        }
+
+        dashRoutine = StartCoroutine(DashVerticalCoroutine(dir));
+    }
+
+    private IEnumerator DashVerticalCoroutine(float dir)
     {
         isDashing = true;
-        // animator.SetBool("IsDashing", true);
+        currentDashDirection = dir;
 
-        // The dash’s starting Y and final (clamped) Y
+        // The dash’s starting Y
         float startY = transform.position.y;
-        // We still compute dashTarget as before, but we only use its Y.
-        Vector3 dashTarget = transform.position + new Vector3(0f, dir * verticalDashDistance, 0f);
-        dashTarget = ClampToCamera(dashTarget); // for safety, though we only really need dashTarget.y
 
+        // We compute the final Y but clamp it
+        Vector3 dashTarget = transform.position + new Vector3(0f, dir * verticalDashDistance, 0f);
+        dashTarget = ClampToCamera(dashTarget); 
         float targetY = dashTarget.y;
 
         float elapsed = 0f;
@@ -113,34 +135,51 @@ public class KnightmareSwipeMovement : MonoBehaviour
         {
             float t = elapsed / dashDuration;
 
-            // 1) Keep the current X (in case the user is dragging horizontally)
-            float currentX = transform.position.x;
-
-            // 2) Lerp just the Y coordinate
+            float currentX = transform.position.x; // preserve horizontal
             float newY = Mathf.Lerp(startY, targetY, t);
 
-            // 3) Construct the new position
             Vector3 newPos = new Vector3(currentX, newY, transform.position.z);
-
-            // 4) Clamp the new position so we don't leave the screen (including the X if needed)
             newPos = ClampToCamera(newPos);
-
-            // 5) Assign to transform
             transform.position = newPos;
 
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        // Final snap to the fully dashed Y (just to ensure consistency)
-        // but keep the current X
+        // Final snap
         float finalX = transform.position.x;
         Vector3 finalPos = new Vector3(finalX, targetY, transform.position.z);
         finalPos = ClampToCamera(finalPos);
         transform.position = finalPos;
 
         isDashing = false;
-        // animator.SetBool("IsDashing", false);
+        dashRoutine = null;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // Only do something if the player is mid-dash
+        if (!isDashing) return;
+
+        if (other.CompareTag("Meteor"))
+        {
+            // Destroy the meteor
+            Destroy(other.gameObject);
+
+            // Immediately interrupt the current dash
+            if (dashRoutine != null)
+            {
+                StopCoroutine(dashRoutine);
+                dashRoutine = null;
+            }
+            isDashing = false;
+
+            // Reverse dash direction: if we were dashing down (-1), dash up (+1), etc.
+            float reverseDir = (currentDashDirection > 0f) ? -1f : 1f;
+
+            // Start a new dash from the collision point
+            StartDash(reverseDir);
+        }
     }
 
     private Vector3 ClampToCamera(Vector3 targetPos)
@@ -154,10 +193,6 @@ public class KnightmareSwipeMovement : MonoBehaviour
         float minY = camCenter.y - camHeight / 2f + boundaryPadding + 3f;
         float maxY = camCenter.y + camHeight / 2f - boundaryPadding - 4f;
 
-        // Debug info to see clamping bounds
-        // You can comment out these logs after you confirm the values
-        // are what you expect.
-        // They will show you the "targetPos" vs. "clamped" position.
         Debug.Log(
             $"[Clamp] minY={minY}, maxY={maxY}, " +
             $"targetY={targetPos.y}, resultY={Mathf.Clamp(targetPos.y, minY, maxY)}"
@@ -167,6 +202,4 @@ public class KnightmareSwipeMovement : MonoBehaviour
         float clampedY = Mathf.Clamp(targetPos.y, minY, maxY);
         return new Vector3(clampedX, clampedY, targetPos.z);
     }
-
-    
 }
