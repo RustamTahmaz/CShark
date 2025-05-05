@@ -745,7 +745,7 @@ GameObject:
   - component: {fileID: 1286779357}
   m_Layer: 0
   m_Name: Astronaut
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1049,7 +1049,6 @@ PrefabInstance:
     - target: {fileID: -7552582706839291426, guid: e48154e11d810484db4fef3bfedaa444, type: 3}
       propertyPath: m_LocalPosition.y
       value: 6.7
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: e48154e11d810484db4fef3bfedaa444, type: 3}
       propertyPath: m_LocalPosition.z
