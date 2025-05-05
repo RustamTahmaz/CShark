@@ -24,6 +24,10 @@ public class PlayerStats : MonoBehaviour
     {
         // Initialize current health at start
         currentHealth = maxHealth;
+         UpgradeMaxHealth(PlayerPrefs.GetInt("Upgrade_Health", 0), refillHealth: false);
+        IncreaseAttack(PlayerPrefs.GetInt("Upgrade_Damage", 0));
+        IncreaseDashDistance(PlayerPrefs.GetFloat("Upgrade_Dash", 0f));
+        IncreaseRocketSpeed(PlayerPrefs.GetFloat("Upgrade_Rocket", 0f));
     }
 
     //--------------------- Health Methods ---------------------//
