@@ -1507,8 +1507,8 @@ MonoBehaviour:
   comboMultiplier: 0.5
   comboTimeWindow: 3
   maxComboMultiplier: 3
-  scoreText: {fileID: 1042152668}
-  highScoreText: {fileID: 1548249837}
+  scoreText: {fileID: 0}
+  highScoreText: {fileID: 0}
 --- !u!4 &919387999
 Transform:
   m_ObjectHideFlags: 0
@@ -2207,7 +2207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1370591346
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2282,7 +2282,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604bb964bc1a32d44874987cab998a5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameOverPanel: {fileID: 0}
+  GameOverPanel: {fileID: 1370591345}
+  finalScoreText: {fileID: 1042152668}
+  bestScoreText: {fileID: 1548249837}
 --- !u!1 &1548249835
 GameObject:
   m_ObjectHideFlags: 0
@@ -2499,7 +2501,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &1730330372
 RectTransform:
@@ -2760,7 +2762,7 @@ SceneRoots:
   - {fileID: 149560991}
   - {fileID: 195610717}
   - {fileID: 919387999}
-  - {fileID: 1730330372}
   - {fileID: 1365920581}
   - {fileID: 1953949375}
   - {fileID: 13098869}
+  - {fileID: 1730330372}
