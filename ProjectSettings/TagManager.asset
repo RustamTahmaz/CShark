@@ -4,7 +4,9 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Enemy
+  - Meteor
+  - Undefined
+  - UFO
   layers:
   - Default
   - TransparentFX

@@ -41,11 +41,31 @@ public class PlayerController : MonoBehaviour
     private float currentVelocityX;
     private bool isMoving = false;
 
+    [Header("VFX & Extras")]
+    public GameObject meteorExplosionPrefab;  // drag in a simple explosion ParticleSystem prefab
+
+    [Header("Health UI")]
+    public Image           healthIcon;  // drag in your HealthIcon here
+    public TextMeshProUGUI healthText;  // drag in your HealthText here
+
+    // [Header("Base Stats for Upgrades")]
+    // public int   baseMaxHealth      = 3;   // your default starting lives
+    // public float baseMoveSpeed      = 12f; // your default horizontal speed
+    // public float dashDistance   = 50f; // your default vertical dash distance
+    // public float baseRocketSpeed    = 10f; // if you ever implement a rocket boost
+    // public float rocketSpeed    = 10f; // if you ever implement a rocket boost
+
+    private int currentHealth;
+    public int maxHealth = 3;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         powerUpManager = FindFirstObjectByType<PowerUpManager>();
         mainCam = Camera.main;
+
+        currentHealth = maxHealth;
+        UpdateHealthUI();
         
         if (rb != null)
         {
@@ -69,6 +89,21 @@ public class PlayerController : MonoBehaviour
         if (invincibilityEffect) invincibilityEffect.SetActive(false);
         if (speedBoostEffect) speedBoostEffect.SetActive(false);
         if (doublePointsEffect) doublePointsEffect.SetActive(false);
+
+        // var up = UpgradeManager.Instance;
+
+        // // Armor gives you extra maxHealth per level
+        // maxHealth = baseMaxHealth + up.GetArmorLevel();
+
+        // // Gloves could boost your dashDamage or baseScorePerHit:
+        // ScoreManager.Instance.baseScorePerHit *= 1f + 0.1f * up.GetGloveLevel();
+
+        // // Boots increase your horizontal speed:
+        // moveSpeed *= 1f + 0.1f * up.GetBootLevel();
+        // dashDistance *= 1f + 0.1f * up.GetBootLevel();   // optional
+
+        // // Rocket might affect initial upward boost or similar
+        // rocketSpeed = baseRocketSpeed * (1f + 0.1f * up.GetRocketLevel());
     }
 
     private void Update()
@@ -92,6 +127,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    public void TakeDamage(int amount = 1)
+    {
+        currentHealth = Mathf.Max(0, currentHealth - amount);
+        UpdateHealthUI();
+        // Optional: update any health‐UI here
+        AudioManager.Instance.PlaySfx(AudioManager.Instance.hurtSfx);
+        if (currentHealth <= 0)
+        {
+            
+            GameOver();
+        }
+    }
+
+    private void UpdateHealthUI()
+    {
+        if (healthText != null)
+            healthText.text = $"× {currentHealth}";
+        // (Optionally) you can hide the icon at 0 health:
+        // if (currentHealth == 0) healthIcon.enabled = false;
+    }
+
     private void HandleInput()
     {
         if (Input.touchCount > 0)
@@ -105,7 +162,7 @@ public class PlayerController : MonoBehaviour
                     isMoving = true;
                     break;
                 case TouchPhase.Moved:
-                    if (!isDashing)
+                    // if (!isDashing)
                     {
                         Vector3 touchWorldPos = mainCam.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, -mainCam.transform.position.z));
                         targetX = touchWorldPos.x;
@@ -189,21 +246,23 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateMovement()
     {
-        if (!isDashing)
+        if (isMoving)
         {
-            if (isMoving)
-            {
-                float newX = Mathf.SmoothDamp(transform.position.x, targetX, ref currentVelocityX, moveSmoothTime);
-                Vector3 newPos = new Vector3(newX, transform.position.y, transform.position.z);
-                newPos = ClampToCamera(newPos);
-                transform.position = newPos;
-            }
-            else
-            {
-                currentVelocityX = 0f;
-            }
+            float newX = Mathf.SmoothDamp(
+                transform.position.x,
+                targetX,
+                ref currentVelocityX,
+                moveSmoothTime
+            );
+            Vector3 newPos = new Vector3(newX, transform.position.y, transform.position.z);
+            transform.position = ClampToCamera(newPos);
+        }
+        else
+        {
+            currentVelocityX = 0f;
         }
     }
+
 
     private void CheckBoundaries()
     {
@@ -231,32 +290,106 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (!collision.gameObject.CompareTag("Meteor"))
+            return;
+
+        var meteor = collision.gameObject;
+
+        if (isDashing)  
         {
-            if (isDashingDown)
-            {
-                hitEnemyDuringDash = true;
-                if (rb != null)
-                {
-                    rb.linearVelocity = Vector2.zero;
-                    rb.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
-                    rb.gravityScale = 0f; // Stop falling after bounce
-                }
-                isDashing = false;
-                isDashingDown = false;
-                if (dashRoutine != null)
-                {
-                    StopCoroutine(dashRoutine);
-                    dashRoutine = null;
-                }
-            }
-            if (ScoreManager.Instance != null)
-            {
-                ScoreManager.Instance.AddScoreOnHit();
-            }
-            Destroy(collision.gameObject);
+            // ─── You dashed into it ──────────────────
+            // play your bounce, score and destroy:
+            hitEnemyDuringDash = true;
+            rb.linearVelocity = Vector2.zero;
+            rb.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
+            rb.gravityScale = 0f;
+
+            isDashing = isDashingDown = false;
+            if (dashRoutine != null) StopCoroutine(dashRoutine);
+
+            ScoreManager.Instance?.AddScoreOnHit();
+            // CoinManager.Instance.AddCoins(1);
+
+            // optional: explosion VFX  
+            if (meteorExplosionPrefab != null)
+                Instantiate(meteorExplosionPrefab, meteor.transform.position, Quaternion.identity);
+            AudioManager.Instance.PlaySfx(AudioManager.Instance.boomSfx);
+            Destroy(meteor);
+            
+        }
+        else  
+        {
+            // ─── You walked into it ─────────────────
+            TakeDamage(1);
+
+            // optional: small hit VFX or camera shake
+            if (meteorExplosionPrefab != null)
+                Instantiate(meteorExplosionPrefab, meteor.transform.position, Quaternion.identity);
+            AudioManager.Instance.PlaySfx(AudioManager.Instance.boomSfx);
+            Destroy(meteor);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // 1) Meteor logic
+        if (other.CompareTag("Meteor"))
+        {
+            GameObject meteor = other.gameObject;
+
+            // If you dashed into it, bounce & score
+            if (isDashing)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
+                rb.gravityScale = 0f;
+                isDashing = isDashingDown = false;
+                if (dashRoutine != null) StopCoroutine(dashRoutine);
+
+                ScoreManager.Instance?.AddScoreOnHit();
+                // CoinManager.Instance.AddCoins(1);
+            }
+            else
+            {
+                // Otherwise take damage
+                TakeDamage(1);
+            }
+
+            AudioManager.Instance.PlaySfx(AudioManager.Instance.boomSfx);
+            Destroy(meteor);
+            
+            return;
+        }
+
+        // 2) UFO logic
+        if (other.CompareTag("UFO"))
+        {
+            GameObject ufo = other.gameObject;
+
+            if (isDashing)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
+                rb.gravityScale = 0f;
+                isDashing = isDashingDown = false;
+                if (dashRoutine != null) StopCoroutine(dashRoutine);
+
+                ScoreManager.Instance?.AddScoreOnHit();
+                // CoinManager.Instance.AddCoins(2);
+            }
+            else
+            {
+                TakeDamage(1);
+            }
+
+            AudioManager.Instance.PlaySfx(AudioManager.Instance.boomSfx);
+            Destroy(ufo);
+            
+            return;
+        }
+    }
+
+
 
     private void GameOver()
     {

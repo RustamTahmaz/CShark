@@ -371,14 +371,14 @@ PrefabInstance:
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 981236287}
+      objectReference: {fileID: 0}
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TryPurchase
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1336,6 +1336,7 @@ RectTransform:
   - {fileID: 2078923536}
   - {fileID: 823874120}
   - {fileID: 2085349977}
+  - {fileID: 1679952129}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1847,7 +1848,7 @@ PrefabInstance:
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 480433490}
+      objectReference: {fileID: 0}
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -1858,7 +1859,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TryPurchase
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -2120,6 +2121,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1587601826}
   m_CullTransparentMesh: 1
+--- !u!1 &1679952128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1679952129}
+  - component: {fileID: 1679952130}
+  m_Layer: 1
+  m_Name: StoreUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1679952129
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679952128}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1073552240}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1679952130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679952128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b307afbf19cd6a646b708df190a27642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1797552346
 GameObject:
   m_ObjectHideFlags: 0
@@ -2326,14 +2375,14 @@ PrefabInstance:
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1393061561}
+      objectReference: {fileID: 0}
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TryPurchase
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -2353,11 +2402,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7228384487640819077, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 407.3309
+      value: 404.7
       objectReference: {fileID: 0}
     - target: {fileID: 7228384487640819077, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -77.787575
+      value: -77.5
       objectReference: {fileID: 0}
     - target: {fileID: 8254515219775282690, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_text
@@ -2838,14 +2887,14 @@ PrefabInstance:
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 903127149}
+      objectReference: {fileID: 0}
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TryPurchase
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5761957294228865540, guid: 1c458b3438ff13a43952055467625648, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

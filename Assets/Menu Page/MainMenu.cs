@@ -12,4 +12,9 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Store");
     }
+
+    public void OnSettingsButtonPressed()
+    {
+        SceneManager.LoadScene("Settings");
+    }
 }

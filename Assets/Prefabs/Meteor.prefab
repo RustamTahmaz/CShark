@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 7144599001945598914}
   - component: {fileID: 6357026131209783761}
   - component: {fileID: -839145152591725516}
+  - component: {fileID: 3885031875759244119}
   m_Layer: 0
   m_Name: Meteor
-  m_TagString: Enemy
+  m_TagString: Meteor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,8 +126,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 5
+  m_Offset: {x: -0.1, y: 0}
+  m_Radius: 3.5
 --- !u!114 &7144599001945598914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +135,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8953508516581186528}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ead0704d43539e49bc7a79fac19ca02, type: 3}
   m_Name: 
@@ -159,7 +160,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1.5
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -193,3 +194,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3885031875759244119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8953508516581186528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152a63d4c2f4adf4abe4c1d907c4f5a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 10
